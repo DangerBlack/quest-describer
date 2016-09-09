@@ -15,7 +15,37 @@ Map
 RareItem
 City
 Tavern
+dungeon
+
 */
+
+
+
+/*MAIN ~ QUEST*/
+
+/*
+
+cure(5,king).
+cure(5,child).
+cure(5,princess).
+
+found(5,treasure).
+
+destroy(5,rareitem).
+
+found(5,rareitem).
+
+be(5,king).
+
+rescue(5,princess).
+
+found(5,love).
+
+save(5,child).
+save(5,king).
+save(5,princess).
+
+
 
 /*Facts*/
 
@@ -35,20 +65,32 @@ reach(_,city):-
     write('[-6 reach]').
 reach(_,tavern):-
     write('[-7 reach]').
-ill(_,king):-
+ill(_,_):-
     write('[-8 ill]').
 destroy(_,city):-
     write('[-9 destroy]').
+reach(_,dungeon):-
+    write('[-10 reach]').
+ask(_,princess):-
+    write('[-11 ask]').
+give(_,rareitem,princess):-
+    write('[-12 give]').
+destroy(_,rareitem):-
+    write('[-12 destroy]').
+give(_,medicine,_):-
+    write('[-13 give]').
+
 
 /* Hypotesis */
 
 /*Cure a king*/
 
-cure(D,king) :-
+cure(D,P) :-
     D>0,
     write('[1 cure]'),
-    ill(D-1,king),
-    found(D-1,medicine).
+    ill(D-1,P),
+    found(D-1,medicine),
+    give(D-1,medicine,P).
 found(D,medicine) :-
     D>0,
     write('[2 found]'),
@@ -69,7 +111,7 @@ found(D,map) :-
     D>0,
     write('[5 found]'),
     ask(D-1,mage),
-    found(D-1rareitem).
+    found(D-1,rareitem).
 found(D,rareitem):-
     D>0,
     write('[6 found]'),
@@ -85,25 +127,28 @@ destroy(D,rareitem) :-
     reach(D-1,city),
     ask(D-1,mage),
     kill(D-1,hero,monster),
-    betrayal(D-1,companion).
+    betrayal(D-1,companion),
+    reach(D-1,dungeon),
+    destroy(D-1,rareitem).
+
 found(D,rareitem) :-
     D>0,
-    write('[8 found]'+D),
+    write('[8 found]'),
     ask(D-1,mage).
 gain(D,party) :-
     D>0,
-    write('[9 gain]'+D),
+    write('[9 gain]'),
     reach(D-1,city),
     reach(D-1,tavern),
     join(D-1,companion).
 betrayal(D,companion) :-
     D>0,
-    write('[10 betrayal]'+D),
+    write('[10 betrayal]'),
     steal(D-1,companion,rareitem).
 
 kill(D,hero,monster) :-
     D>0,
-    write('[11 kill]'+D),
+    write('[11 kill]'),
     found(D-1,rareitem),
     reach(D-1,city),
     gain(D-1,party).
@@ -115,7 +160,7 @@ found(D,rareitem):-
     ask(D-1,mage),
     flee(D-1,city,monster),
     train(D-1,hero),
-    reach(D-1,city),
+    reach(D-1,dungeon),
     kill(D-1,hero,monster).
 
 flee(D,city,monster):-
@@ -124,14 +169,60 @@ flee(D,city,monster):-
     destroy(D-1,city),
     reach(D-1,_).
 
-train(D-1,hero):-
+train(D,hero):-
     D>0,
     write('[14 train]'),
     kill(D-1,hero,monster),
     kill(D-1,hero,monster).
 
-train(D-1,hero):-
+train(D,hero):-
     D>0,
     write('[15 train]'),
     ask(D-1,mage),
     kill(D-1,hero,monster).
+
+be(D,king):-
+    D>0,
+    write('[16 be]'),
+    ask(D-1,mage),
+    kill(D-1,hero,monster),
+    reach(D-1,city).
+
+rescue(D,princess):-
+    D>0,
+    write('[17 rescue]'),
+    reach(D-1,dungeon),
+    kill(D-1,hero,monster),
+    reach(D-1,city).
+
+found(D,love):-
+    D>0,
+    write('[18 found]'),
+    ask(D-1,mage),
+    rescue(D-1,princess),
+    found(D-1,rareitem),
+    give(D-1,rareitem,princess),
+    ask(D-1,princess).
+
+save(D,P):-
+    D>0,
+    write('[19 save]'),
+    flee(D-1,city,monster),
+    reach(D-1,city),
+    ask(D-1,mage),
+    reach(D-1,dungeon),
+    kill(D-1,hero,monster).
+
+save(D,princess):-
+    D>0,
+    write('[20 save]'),
+    flee(D-1,city,monster),
+    reach(D-1,city),
+    found(D,love),
+    reach(D-1,dungeon),
+    kill(D-1,hero,monster).
+
+found(D,rareitem):-
+    D>0,
+    write('[21 found]'),
+    reach(D-1,dungeon).
