@@ -1,4 +1,8 @@
 /*
+
+how to run:
+swipl concepts.pl
+
 Hero
 Monster
 King
@@ -19,80 +23,115 @@ Tavern
 :-discontiguous(kill/1).
 :-discontiguous(kill/2).
 
-kill(hero,monster).
-ask(mage).
-ask(hero).
-steal(hero,rareitem).
-reach(city).
-reach(city2).
-reach(tavern).
-ill(king).
+kill(_,hero,monster):-
+    write('[-1 kill]').
+ask(_,mage):-
+    write('[-2 ask]').
+join(_,companion):-
+    write('[-3 join]').
+steal(_,companion,rareitem):-
+    write('[-4 steal]').
+reach(_,city):-
+    write('[-6 reach]').
+reach(_,tavern):-
+    write('[-7 reach]').
+ill(_,king):-
+    write('[-8 ill]').
+destroy(_,city):-
+    write('[-9 destroy]').
 
 /* Hypotesis */
 
 /*Cure a king*/
 
-cure(king) :-
-    write('[1 ill]'),
-    ill(king),
-    write('[1 found]'),
-    found(medicine).
-found(medicine) :-
-    write('[2 kill]'),
-    kill(hero,monster).
-found(medicine) :-
-    write('[3 ask]'),
-    ask(mage).
+cure(D,king) :-
+    D>0,
+    write('[1 cure]'),
+    ill(D-1,king),
+    found(D-1,medicine).
+found(D,medicine) :-
+    D>0,
+    write('[2 found]'),
+    kill(D-1,hero,monster).
+found(D,medicine) :-
+    D>0,
+    write('[3 found]'),
+    ask(D-1,mage).
 
 /*The Hobbit */
 
-found(treasure) :-
+found(D,treasure) :-
+    D>0,
     write('[4 found]'),
-    found(map),
-    write('[4 kill]'),
-    kill(hero,monster).
-found(map) :-
-    write('[5 ask]'),
-    ask(mage),
+    found(D-1,map),
+    kill(D-1,hero,monster).
+found(D,map) :-
+    D>0,
     write('[5 found]'),
-    found(rareitem).
-found(rareitem) :-
-    write('[6 kill]'),
-    kill(hero,monster).
+    ask(D-1,mage),
+    found(D-1rareitem).
+found(D,rareitem):-
+    D>0,
+    write('[6 found]'),
+    kill(D-1,hero,monster).
 
 /*The Lord of the Ring */
 
-destroy(rareitem) :-
-    write('[7 found]'),
-    found(rareitem),
-    write('[7 gain]'),
-    gain(party),
-    write('[7 reach]'),
-    reach(city2),
-    write('[7 ask]'),
-    ask(mage),
-    write('[7 kill]'),
-    kill(hero,monster),
-    write('[7 betrayal]'),
-    betrayal(hero).
-found(rareitem) :-
-    write('[8 ask]'),
-    ask(mage).
-gain(party) :-
-    write('[9 reach]'),
-    reach(city),
-    write('[9 reach]'),
-    reach(tavern),
-    write('[9 ask]'),
-    ask(hero).
-betrayal(hero) :-
-    write('[10 steal]'),
-    steal(hero,rareitem).
+destroy(D,rareitem) :-
+    D>0,
+    write('[7 destroy]'),
+    found(D-1,rareitem),
+    gain(D-1,party),
+    reach(D-1,city),
+    ask(D-1,mage),
+    kill(D-1,hero,monster),
+    betrayal(D-1,companion).
+found(D,rareitem) :-
+    D>0,
+    write('[8 found]'+D),
+    ask(D-1,mage).
+gain(D,party) :-
+    D>0,
+    write('[9 gain]'+D),
+    reach(D-1,city),
+    reach(D-1,tavern),
+    join(D-1,companion).
+betrayal(D,companion) :-
+    D>0,
+    write('[10 betrayal]'+D),
+    steal(D-1,companion,rareitem).
 
-kill(hero,monster) :-
-    write('[11 found]'),
-    found(rareitem),
-    write('[11 reach]'),
-    reach(city),
-    write('[11 gain]'),
-    gain(party).
+kill(D,hero,monster) :-
+    D>0,
+    write('[11 kill]'+D),
+    found(D-1,rareitem),
+    reach(D-1,city),
+    gain(D-1,party).
+
+found(D,rareitem):-
+    D>0,
+    write('[12 found]'),
+    join(D-1,companion),
+    ask(D-1,mage),
+    flee(D-1,city,monster),
+    train(D-1,hero),
+    reach(D-1,city),
+    kill(D-1,hero,monster).
+
+flee(D,city,monster):-
+    D>0,
+    write('[13 flee]'),
+    destroy(D-1,city),
+    reach(D-1,_).
+
+train(D-1,hero):-
+    D>0,
+    write('[14 train]'),
+    kill(D-1,hero,monster),
+    kill(D-1,hero,monster).
+
+train(D-1,hero):-
+    D>0,
+    write('[15 train]'),
+    ask(D-1,mage),
+    kill(D-1,hero,monster).
