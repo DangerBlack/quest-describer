@@ -54,7 +54,7 @@ awkake(5,god).
 awake(5,_).
 
 revolte(5,slave,monster).
-
+*/
 
 /*Facts*/
 
@@ -89,9 +89,10 @@ destroy(_,rareitem):-
 give(_,medicine,_):-
     write('[-13 give]').
 explore(_,dungeon):-
-    wirte('[-14 explore]').
-merge(D-1,rareitem,rareitem):-
+    write('[-14 explore]').
+merge(D,rareitem,rareitem):-
     write('[-15 merge]').
+
 
 
 /* Hypotesis */
@@ -245,7 +246,7 @@ escape(D,hero,dungeon):-
     write('[22 escape]'),
     kill(D-1,hero,monster),
     reach(D-1,city).
-escape(D,hero,dungeon):-
+escape(D,_,dungeon):-
     D>0,
     write('[23 escape]'),
     found(D-1,secretPath),
@@ -263,7 +264,6 @@ create(D,rareitem):-
     found(D-1,rareitem),
     found(D-1,rareitem),
     merge(D-1,rareitem,rareitem).
-
 awake(D,_):-
     D>0,
     write('[26 awake]'),
