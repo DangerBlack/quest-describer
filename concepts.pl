@@ -16,6 +16,8 @@ RareItem
 City
 Tavern
 dungeon
+god
+message
 
 */
 
@@ -92,7 +94,8 @@ explore(_,dungeon):-
     write('[-14 explore]').
 merge(D,rareitem,rareitem):-
     write('[-15 merge]').
-
+ask(D,_):-
+    write('[-16 ask]').
 
 
 /* Hypotesis */
@@ -285,4 +288,17 @@ revolte(D,slave,monster):-
     D>0,
     write('[29 revolte]'),
     escape(D-1,slave,dungeon),
-    kill(D,hero,monster).
+    kill(D-1,hero,monster).
+
+kill(D,hero,monster):-
+    D>0,
+    write('[30 kill]'),
+    kill(D-1,hero,monster),
+    kill(D-1,hero,monster).
+
+give(D,message,K):-
+    D>0,
+    write('[31 give]'),
+    ask(D-1,mage),
+    reach(D-1,city),
+    ask(D-1,K).
