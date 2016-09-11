@@ -45,6 +45,15 @@ save(5,child).
 save(5,king).
 save(5,princess).
 
+create(5,rareitem).
+
+escape(5,hero,dungeon).
+
+awake(5,monster).
+awkake(5,god).
+awake(5,_).
+
+revolte(5,slave,monster).
 
 
 /*Facts*/
@@ -79,6 +88,10 @@ destroy(_,rareitem):-
     write('[-12 destroy]').
 give(_,medicine,_):-
     write('[-13 give]').
+explore(_,dungeon):-
+    wirte('[-14 explore]').
+merge(D-1,rareitem,rareitem):-
+    write('[-15 merge]').
 
 
 /* Hypotesis */
@@ -226,3 +239,49 @@ found(D,rareitem):-
     D>0,
     write('[21 found]'),
     reach(D-1,dungeon).
+
+escape(D,hero,dungeon):-
+    D>0,
+    write('[22 escape]'),
+    kill(D-1,hero,monster),
+    reach(D-1,city).
+escape(D,hero,dungeon):-
+    D>0,
+    write('[23 escape]'),
+    found(D-1,secretPath),
+    reach(D-1,city).
+
+found(D,secretPath):-
+  D>0,
+    write('[24 found]'),
+    explore(D-1,dungeon).
+
+create(D,rareitem):-
+    D>0,
+    write('[25 create]'),
+    ask(D-1,mage),
+    found(D-1,rareitem),
+    found(D-1,rareitem),
+    merge(D-1,rareitem,rareitem).
+
+awake(D,_):-
+    D>0,
+    write('[26 awake]'),
+    create(D-1,rareitem),
+    reach(D-1,dungeon).
+
+awake(D,god):-
+    D>0,
+    write('[27 awake]'),
+    create(D-1,rareitem),
+    reach(D-1,city).
+
+kill(D,hero,monster):-
+    D>0,
+    create(D-1,rareitem).
+
+revolte(D,slave,monster):-
+    D>0,
+    write('[29 revolte]'),
+    escape(D-1,slave,dungeon),
+    kill(D,hero,monster).
