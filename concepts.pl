@@ -278,6 +278,7 @@ awake(D,god):-
 
 kill(D,hero,monster):-
     D>0,
+    write('[28 kill]'),
     create(D-1,rareitem).
 
 revolte(D,slave,monster):-
