@@ -102,8 +102,8 @@ give(_,medicine,X):-
     write('{"action":"give","subject":["medicine","'),write(X),write('"]}').
 explore(_,dungeon):-
     write('{"action":"explore","subject":["dungeon"]}').
-merge(D,rareitem,rareitem):-
-    write('{"action":"merge","subject":["rareitem","rareitem"]}').
+merge(D,rareitem1,rareitem2):-
+    write('{"action":"merge","subject":["rareitem1","rareitem2"]}').
 ask(D,X):-
     write('{"action":"ask","subject":["'),write(X),write('"]}').
 
@@ -146,9 +146,9 @@ found(D,map) :-
 	write(','),
     found(D-1,rareitem),
 	write(']}').
-found(D,rareitem):-
+found(D,R):-
     D>0,
-    write('{"action":"found","subject":"rareitem","quest":['),
+    write('{"action":"found","subject":["'),write(R),write('"],"quest":['),
     kill(D-1,hero,monster),
 	write(']}').
 
@@ -174,9 +174,9 @@ destroy(D,rareitem) :-
     destroy(D-1,rareitem),
 	write(']}').
 
-found(D,rareitem) :-
+found(D,R) :-
     D>0,
-    write('{"action":"found","subject":["rareitem"],"quest":['),
+    write('{"action":"found","subject":["'),write(R),write('"],"quest":['),
     ask(D-1,mage),
 	write(']}').
 gain(D,party) :-
@@ -204,9 +204,9 @@ kill(D,hero,monster) :-
     gain(D-1,party),
 	write(']}').
 
-found(D,rareitem):-
+found(D,R):-
     D>0,
-    write('{"action":"found","subject":["rareitem"],"quest":['),
+    write('{"action":"found","subject":["'),write(R),write('"],"quest":['),
     join(D-1,companion),
 	write(','),
     ask(D-1,mage),
@@ -307,9 +307,9 @@ save(D,princess):-
     kill(D-1,hero,monster),
 	write(']}').
 
-found(D,rareitem):-
+found(D,R):-
     D>0,
-    write('{"action":"found","subject":["rareitem"],"quest":['),
+    write('{"action":"found","subject":["'),write(R),write('"],"quest":['),
     reach(D-1,dungeon),
 	write(']}').
 
@@ -340,11 +340,11 @@ create(D,rareitem):-
     write('{"action":"create","subject":["rareitem"],"quest":['),
     ask(D-1,mage),
 	write(','),
-    found(D-1,rareitem),
+    found(D-1,rareitem1),
 	write(','),
-    found(D-1,rareitem),
+    found(D-1,rareitem2),
 	write(','),
-    merge(D-1,rareitem,rareitem),
+    merge(D-1,rareitem1,rareitem2),
 	write(']}').
 awake(D,P):-
     D>0,
@@ -379,7 +379,6 @@ revolte(D,slave,monster):-
 kill(D,hero,monster):-
     D>0,
     write('{"action":"kill","subject":["hero","monster"],"quest":['),
-    write('kill(hero,monster,'),
     kill(D-1,hero,monster),
 	write(','),
     kill(D-1,hero,monster),
