@@ -72,37 +72,37 @@ revolte(5,slave,monster).
 
 
 kill(_,hero,monster):-
-    write('kill(hero,monster)').
+    write('{ "action":"kill","subject":["hero","monster"]}').
 ask(_,mage):-
-    write('ask(mage)').
+    write('{"action":"ask","subject":["mage"]}').
 join(_,companion):-
-    write('join(companion)').
+    write('{"action":"join","subject":["companion"]}').
 steal(_,companion,rareitem):-
-    write('steal(companion,rareitem)').
+    write('{"action":"steal","subject":["companion,rareitem"]}').
 reach(_,city):-
-    write('reach(city)').
+    write('{"action":"reach","subject":["city"]}').
 reach(_,tavern):-
-    write('reach(tavern)').
+    write('{"action":"reach","subject":["tavern"]}').
 ill(_,X):-
-    write('ill('),write(X),write(')').
+    write('{"action":"ill":"subject":["'),write(X),write('"]}').
 destroy(_,city):-
-    write('destroy(city)').
+    write('{"action":"destroy","subject":["city"]}').
 reach(_,dungeon):-
-    write('reach(dungeon)').
+    write('{"action":"reach","subject":["dungeon"]}').
 ask(_,princess):-
-    write('ask(princess)').
+    write('{"action":"ask","subject":["princess"]}').
 give(_,rareitem,princess):-
-    write('give(rareitem,princess)').
+    write('{"action":"give","subject":["rareitem","princess"]}').
 destroy(_,rareitem):-
-    write('destroy(rareitem)').
+    write('{"action":"destroy","subject":["rareitem"]}').
 give(_,medicine,X):-
-    write('give(medicine,'),write(X),write(')').
+    write('{"action":"give","subject":["medicine","'),write(X),write('"]}').
 explore(_,dungeon):-
-    write('explore(dungeon)').
+    write('{"action":"explore","subject":["dungeon"]}').
 merge(D,rareitem,rareitem):-
-    write('merge(rareitem,rareitem)').
+    write('{"action":"merge","subject":["rareitem","rareitem"]}').
 ask(D,X):-
-    write('ask('),write(X),write(')').
+    write('{"action":"ask","subject":["'),write(X),write('"]}').
 
 
 /* Hypotesis */
@@ -111,51 +111,49 @@ ask(D,X):-
 
 cure(D,P) :-
     D>0,
-    write('cure('),write(P),write(','),
-    ill(D-1,P),
-	write(','),
+    write('{"action":"cure","subject":["'),write(P),write('"],"quest":['),
     found(D-1,medicine),
 	write(','),
     give(D-1,medicine,P),
-	write(')').
+	write(']}').
 found(D,medicine) :-
     D>0,
-    write('found(medicine,'),
+    write('{"action":"found","subject":"medicine","quest":['),
     kill(D-1,hero,monster)
-	write(')').
+	write(']}').
 found(D,medicine) :-
     D>0,
-    write('found(medicine,'),
+    write('{"action":"found","subject":"medicine","quest":['),
     ask(D-1,mage),
-	write(')').
+	write(']}').
 
 /*The Hobbit */
 
 found(D,treasure) :-
     D>0,
-    write('found(treasure,'),
+    write('{"action":"found","subject":"treasure","quest":['),
     found(D-1,map),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 found(D,map) :-
     D>0,
-    write('found(map,'),
+    write('{"action":"found","subject":"map","quest":['),
     ask(D-1,mage),
 	write(','),
     found(D-1,rareitem),
-	write(')').
+	write(']}').
 found(D,rareitem):-
     D>0,
-    write('found(rareitem,'),
+    write('{"action":"found","subject":"rareitem","quest":['),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 /*The Lord of the Ring */
 
 destroy(D,rareitem) :-
     D>0,
-    write('destroy(rareitem,'),
+    write('{"action":"destroy","subject":"rareitem","quest":['),
     found(D-1,rareitem),
 	write(','),
     gain(D-1,party),
@@ -171,41 +169,41 @@ destroy(D,rareitem) :-
     reach(D-1,dungeon),
 	write(','),
     destroy(D-1,rareitem),
-	write(')').
+	write(']}').
 
 found(D,rareitem) :-
     D>0,
-    write('found(rareitem,'),
+    write('{"action":"found","subject":["rareitem"],"quest":['),
     ask(D-1,mage),
-	write(')').
+	write(']}').
 gain(D,party) :-
     D>0,
-    write('gain(party,'),
+    write('{"action":"gain","subject":"party","quest":['),
     reach(D-1,city),
 	write(','),
     reach(D-1,tavern),
 	write(','),
     join(D-1,companion),
-	write(')').
+	write(']}').
 betrayal(D,companion) :-
     D>0,
-    write('betrayal(companion,'),
+    write('{"action":"betrayal","subject":"companion","quest":['),
     steal(D-1,companion,rareitem),
-	write(')').
+	write(']}').
 
 kill(D,hero,monster) :-
     D>0,
-    write('kill(hero,monster,'),
+    write('{"action":"kill","subject":["hero","monster"],"quest":['),
     found(D-1,rareitem),
 	write(','),
     reach(D-1,city),
 	write(','),
     gain(D-1,party),
-	write(')').
+	write(']}').
 
 found(D,rareitem):-
     D>0,
-    write('found(rareitem,'),
+    write('{"action":"found","subject":["rareitem"],"quest":['),
     join(D-1,companion),
 	write(','),
     ask(D-1,mage),
@@ -217,56 +215,56 @@ found(D,rareitem):-
     reach(D-1,dungeon),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 flee(D,city,monster):-
     D>0,
-    write('flee('),
+    write('{"action":"flee","subject":["city","monster"],"quest":['),
     destroy(D-1,city),
 	write(','),
     reach(D-1,_),
-	write(')').
+	write(']}').
 
 train(D,hero):-
     D>0,
-    write('train(hero,'),
+    write('{"action":"train","subject":["hero"],"quest":['),
     kill(D-1,hero,monster),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 train(D,hero):-
     D>0,
+    write('{"action":"train","subject":["hero"],"quest":['),
     write('train(hero,'),
     ask(D-1,mage),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 be(D,king):-
     D>0,
-    write('be(king,'),
-	write(','),
+    write('{"action":"be","subject":["king"],"quest":['),
     ask(D-1,mage),
 	write(','),
     kill(D-1,hero,monster),
 	write(','),
     reach(D-1,city),
-	write(')').
+	write(']}').
 
 rescue(D,princess):-
     D>0,
-    write('rescue(princess,'),
+    write('{"action":"rescue","subject":["princess"],"quest":['),
     reach(D-1,dungeon),
 	write(','),
     kill(D-1,hero,monster),
 	write(','),
     reach(D-1,city),
-	write(')').
+	write(']}').
 
 found(D,love):-
     D>0,
-    write('found(love,'),
+    write('{"action":"found","subject":["love"],"quest":['),
     ask(D-1,mage),
 	write(','),
     rescue(D-1,princess),
@@ -276,11 +274,11 @@ found(D,love):-
     give(D-1,rareitem,princess),
 	write(','),
     ask(D-1,princess),
-	write(')').
+	write(']}').
 
 save(D,P):-
     D>0,
-    write('save('),write(P),write(','),
+    write('{"action":"save","subject":["',write(P),write('"],"quest":['),
     flee(D-1,city,monster),
 	write(','),
     reach(D-1,city),
@@ -290,11 +288,11 @@ save(D,P):-
     reach(D-1,dungeon),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 save(D,princess):-
     D>0,
-    write('save(princess,'),
+    write('{"action":"save","subject":["princess"],"quest":['),
     flee(D-1,city,monster),
 	write(','),
     reach(D-1,city),
@@ -304,38 +302,39 @@ save(D,princess):-
     reach(D-1,dungeon),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 found(D,rareitem):-
     D>0,
-    write('found(rareitem,'),
+    write('{"action":"found","subject":["rareitem"],"quest":['),
     reach(D-1,dungeon),
-	write(')').
+	write(']}').
 
 escape(D,hero,dungeon):-
     D>0,
-    write('escape(hero,dungeon,'),
+    write('{"action":"escape","subject":["hero","dungeon"],"quest":['),
     kill(D-1,hero,monster),
 	write(','),
     reach(D-1,city),
-	write(')').
-escape(D,_,dungeon):-
+	write(']}').
+escape(D,P,dungeon):-
     D>0,
-    write('escape(dungeon,'),
+    write('{"action":"escape","subject":["',write(P),write('","dungeon"],"quest":['),
     found(D-1,secretPath),
 	write(','),
     reach(D-1,city),
-	write(')').
+	write(']}').
 
 found(D,secretPath):-
   D>0,
+    write('{"action":"found","subject":["secretPath"],"quest":['),
     write('found(secretPath,'),
     explore(D-1,dungeon),
-	write(')').
+	write(']}').
 
 create(D,rareitem):-
     D>0,
-    write('create(rareitem,'),
+    write('{"action":"create","subject":["rareitem"],"quest":['),
     ask(D-1,mage),
 	write(','),
     found(D-1,rareitem),
@@ -343,51 +342,53 @@ create(D,rareitem):-
     found(D-1,rareitem),
 	write(','),
     merge(D-1,rareitem,rareitem),
-	write(')').
+	write(']}').
 awake(D,P):-
     D>0,
-    write('awake('),write(P),write(','),
+    write('{"action":"awake","subject":["',write(P),write('"],"quest":['),
     create(D-1,rareitem),
 	write(','),
     reach(D-1,dungeon),
-	write(')').
+	write(']}').
 
 awake(D,god):-
     D>0,
-    write('awake(god,'),
+    write('{"action":"awake","subject":["god"],"quest":['),
     create(D-1,rareitem),
 	write(','),
     reach(D-1,city),
-	write(')').
+	write(']}').
 
 kill(D,hero,monster):-
     D>0,
+    write('{"action":"awake","subject":["hero","monster"],"quest":['),
     write('kill(hero,monster,'),
     create(D-1,rareitem),
-	write(')').
+	write(']}').
 
 revolte(D,slave,monster):-
     D>0,
-    write('revolte(slave,monster,'),
+    write('{"action":"revolte","subject":["slave","monster"],"quest":['),
     escape(D-1,slave,dungeon),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 kill(D,hero,monster):-
     D>0,
+    write('{"action":"kill","subject":["hero","monster"],"quest":['),
     write('kill(hero,monster,'),
     kill(D-1,hero,monster),
 	write(','),
     kill(D-1,hero,monster),
-	write(')').
+	write(']}').
 
 give(D,message,K):-
     D>0,
-    write('give(message,'),write(K),write(','),
+    write('{"action":"give","subject":["message","',write(K),write('"],"quest":['),
     ask(D-1,mage),
 	write(','),
     reach(D-1,city),
 	write(','),
     ask(D-1,K),
-	write(')').
+	write(']}').
