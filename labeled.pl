@@ -81,7 +81,7 @@ ask(_,mage):-
 join(_,companion):-
     write('{"action":"join","subject":["companion"]}').
 steal(_,companion,rareitem):-
-    write('{"action":"steal","subject":["companion,rareitem"]}').
+    write('{"action":"steal","subject":["companion","rareitem"]}').
 reach(_,city):-
     write('{"action":"reach","subject":["city"]}').
 reach(_,tavern):-
@@ -121,12 +121,12 @@ cure(D,P) :-
 	write(']}').
 found(D,medicine) :-
     D>0,
-    write('{"action":"found","subject":"medicine","quest":['),
+    write('{"action":"found","subject":["medicine"],"quest":['),
     kill(D-1,hero,monster)
 	write(']}').
 found(D,medicine) :-
     D>0,
-    write('{"action":"found","subject":"medicine","quest":['),
+    write('{"action":"found","subject":["medicine"],"quest":['),
     ask(D-1,mage),
 	write(']}').
 
@@ -134,14 +134,14 @@ found(D,medicine) :-
 
 found(D,treasure) :-
     D>0,
-    write('{"action":"found","subject":"treasure","quest":['),
+    write('{"action":"found","subject":["treasure"],"quest":['),
     found(D-1,map),
 	write(','),
     kill(D-1,hero,monster),
 	write(']}').
 found(D,map) :-
     D>0,
-    write('{"action":"found","subject":"map","quest":['),
+    write('{"action":"found","subject":["map"],"quest":['),
     ask(D-1,mage),
 	write(','),
     found(D-1,rareitem),
@@ -156,7 +156,7 @@ found(D,R):-
 
 destroy(D,rareitem) :-
     D>0,
-    write('{"action":"destroy","subject":"rareitem","quest":['),
+    write('{"action":"destroy","subject":["rareitem"],"quest":['),
     found(D-1,rareitem),
 	write(','),
     gain(D-1,party),
@@ -165,13 +165,11 @@ destroy(D,rareitem) :-
 	write(','),
     ask(D-1,mage),
 	write(','),
+    reach(D-1,dungeon),
+    write(','),
     kill(D-1,hero,monster),
 	write(','),
-    betrayal(D-1,companion),
-	write(','),
-    reach(D-1,dungeon),
-	write(','),
-    destroy(D-1,rareitem),
+    betrayal(D-1,companion,rareitem),%TODO add probability insted of 100% fact on trivial path
 	write(']}').
 
 found(D,R) :-
@@ -179,18 +177,19 @@ found(D,R) :-
     write('{"action":"found","subject":["'),write(R),write('"],"quest":['),
     ask(D-1,mage),
 	write(']}').
+
 gain(D,party) :-
     D>0,
-    write('{"action":"gain","subject":"party","quest":['),
+    write('{"action":"gain","subject":["party"],"quest":['),
     reach(D-1,city),
 	write(','),
     reach(D-1,tavern),
 	write(','),
     join(D-1,companion),
 	write(']}').
-betrayal(D,companion) :-
+betrayal(D,companion,rareitem) :-
     D>0,
-    write('{"action":"betrayal","subject":"companion","quest":['),
+    write('{"action":"betrayal","subject":["companion","rareitem"],"quest":['),
     steal(D-1,companion,rareitem),
 	write(']}').
 
