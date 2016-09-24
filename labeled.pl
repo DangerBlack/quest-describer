@@ -1,7 +1,7 @@
 /*
 
 how to run:
-swipl concepts.pl
+swipl labeled.pl
 
 Hero
 Monster
@@ -21,8 +21,11 @@ message
 
 */
 
-
-
+/*
+   Materials
+   https://en.wikipedia.org/wiki/The_Seven_Basic_Plots
+   http://larc.unt.edu/techreports/LARC-2011-02.pdf
+*/
 /*MAIN ~ QUEST*/
 
 /*
@@ -361,8 +364,7 @@ awake(D,god):-
 
 kill(D,hero,monster):-
     D>0,
-    write('{"action":"awake","subject":["hero","monster"],"quest":['),
-    write('kill(hero,monster,'),
+    write('{"action":"kill","subject":["hero","monster"],"quest":['),
     create(D-1,rareitem),
 	write(']}').
 
