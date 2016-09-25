@@ -3,6 +3,9 @@
 how to run:
 swipl labeled.pl
 
+swipl -g "cure(5,king),nl,halt" -f -s labeled.pl
+
+
 Hero
 Monster
 King
@@ -63,6 +66,7 @@ revolte(5,slave,monster).
 
 /*Facts*/
 
+
 :-discontiguous(found/1).
 :-discontiguous(kill/1).
 :-discontiguous(kill/2).
@@ -102,9 +106,9 @@ give(_,medicine,X):-
     write('{"action":"give","subject":["medicine","'),write(X),write('"]}').
 explore(_,dungeon):-
     write('{"action":"explore","subject":["dungeon"]}').
-merge(D,rareitem1,rareitem2):-
+merge(_,rareitem1,rareitem2):-
     write('{"action":"merge","subject":["rareitem1","rareitem2"]}').
-ask(D,X):-
+ask(_,X):-
     write('{"action":"ask","subject":["'),write(X),write('"]}').
 
 
@@ -122,7 +126,7 @@ cure(D,P) :-
 found(D,medicine) :-
     D>0,
     write('{"action":"found","subject":["medicine"],"quest":['),
-    kill(D-1,hero,monster)
+    kill(D-1,hero,monster),
 	write(']}').
 found(D,medicine) :-
     D>0,
@@ -280,7 +284,7 @@ found(D,love):-
 
 save(D,P):-
     D>0,
-    write('{"action":"save","subject":["',write(P),write('"],"quest":['),
+    write('{"action":"save","subject":["'),write(P),write('"],"quest":['),
     flee(D-1,city,monster),
 	write(','),
     reach(D-1,city),
@@ -290,7 +294,7 @@ save(D,P):-
     reach(D-1,dungeon),
 	write(','),
     kill(D-1,hero,monster),
-	write(']}').
+    write(']}').
 
 save(D,princess):-
     D>0,
@@ -319,9 +323,10 @@ escape(D,hero,dungeon):-
 	write(','),
     reach(D-1,city),
 	write(']}').
+
 escape(D,P,dungeon):-
     D>0,
-    write('{"action":"escape","subject":["',write(P),write('","dungeon"],"quest":['),
+    write('{"action":"escape","subject":["'),write(P),write('","dungeon"],"quest":['),
     found(D-1,secretPath),
 	write(','),
     reach(D-1,city),
@@ -347,7 +352,7 @@ create(D,rareitem):-
 	write(']}').
 awake(D,P):-
     D>0,
-    write('{"action":"awake","subject":["',write(P),write('"],"quest":['),
+    write('{"action":"awake","subject":["'),write(P),write('"],"quest":['),
     create(D-1,rareitem),
 	write(','),
     reach(D-1,dungeon),
@@ -385,7 +390,7 @@ kill(D,hero,monster):-
 
 give(D,message,K):-
     D>0,
-    write('{"action":"give","subject":["message","',write(K),write('"],"quest":['),
+    write('{"action":"give","subject":["message","'),write(K),write('"],"quest":['),
     ask(D-1,mage),
 	write(','),
     reach(D-1,city),
