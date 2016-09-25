@@ -92,7 +92,7 @@ def bindAll(js):
         print("+++++++++++++++++++++++"+str(binding))
     return {"subject":subject,"bind":binding,"action":action,"quest":quests}
 
-def narrate(data):
+def narrate_quest(data):
     js = json.loads(data)
     print(data)
     print(js['action'])
@@ -117,7 +117,7 @@ def main(argv):
     #narrate(inputfile)
     R.seed(123)
 
-    narrate(input)
+    narrate_quest(input)
 
 
 
