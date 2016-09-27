@@ -1,13 +1,3 @@
-'''from subprocess import call
-import narrate
-
-
-quest = 'cure(3,king)'
-
-mres=""
-res = call('swipl -g "'+quest+',nl,halt" -f -s labeled.pl', shell=True, universal_newlines=True)
-'''
-
 from subprocess import Popen, PIPE, STDOUT
 import json
 

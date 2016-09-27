@@ -19,7 +19,7 @@ class EntitiesName:
             stream = open(conf_file, 'r')
             config = yaml.load(stream)
         except IOError as e:
-            print("Error opening ["+conf_file+"]: "+str(e)+"\n")
+            print("'\033[1;38mError opening ["+conf_file+"]: "+str(e)+"\033[1;m\n")
 
         return config
 
@@ -32,4 +32,5 @@ class EntitiesName:
         try:
             return self.names[entity][R.randint(0,len(self.names[entity])-1)]
         except:
+            print('\033[1;33mWARNING: UNDEFINED name for entity '+entity+'\033[1;m')
             return self.UNDEFINED
