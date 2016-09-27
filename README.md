@@ -21,3 +21,27 @@ you can simply run **narrate.py**
 ```
 python3 narrate.py -i "save(3,princess)"
 ```
+
+
+some possible quest are the following:
+
+- cure(5,king).
+- cure(5,child).
+- cure(5,princess).
+- found(5,treasure).
+- destroy(5,rareitem).
+- found(5,rareitem).
+- be(5,king).
+- rescue(5,princess).
+- found(5,love).
+- save(5,child).
+- save(5,king).
+- save(5,princess).
+- create(5,rareitem).
+- escape(5,hero,dungeon).
+- awake(5,monster).
+- awkake(5,god).
+- awake(5,_).
+- revolte(5,slave,monster).
+
+number 5 represent the deepest level in the graph, by now prolog return only the first possible solution of the quest (boring) but in future it can find all the possible quest.
