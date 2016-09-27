@@ -19,7 +19,7 @@ class EntitiesName:
             stream = open(conf_file, 'r')
             config = yaml.load(stream)
         except IOError as e:
-            print("'\033[1;38mError opening ["+conf_file+"]: "+str(e)+"\033[1;m\n")
+            print('\033[1;31mERROR: opening ['+conf_file+']: '+str(e)+'\033[1;m')
 
         return config
 

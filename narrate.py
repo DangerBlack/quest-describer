@@ -11,9 +11,9 @@ from prolog import PrologQuest
 
 SAVE_FOLDER = 'plot/'
 
-input = '{"action":"destroy","subject":["rareitem"],"quest":[{"action":"found","subject":["rareitem"],"quest":[{ "action":"kill","subject":["hero","monster"]}]},{"action":"gain","subject":["party"],"quest":[{"action":"reach","subject":["city"]},{"action":"reach","subject":["tavern"]},{"action":"join","subject":["companion"]}]},{"action":"reach","subject":["city"]},{"action":"ask","subject":["mage"]},{ "action":"kill","subject":["hero","monster"]},{"action":"betrayal","subject":["companion"],"quest":[{"action":"steal","subject":["companion","rareitem"]}]},{"action":"reach","subject":["dungeon"]}]}'
+#input = '{"action":"destroy","subject":["rareitem"],"quest":[{"action":"found","subject":["rareitem"],"quest":[{ "action":"kill","subject":["hero","monster"]}]},{"action":"gain","subject":["party"],"quest":[{"action":"reach","subject":["city"]},{"action":"reach","subject":["tavern"]},{"action":"join","subject":["companion"]}]},{"action":"reach","subject":["city"]},{"action":"ask","subject":["mage"]},{ "action":"kill","subject":["hero","monster"]},{"action":"betrayal","subject":["companion"],"quest":[{"action":"steal","subject":["companion","rareitem"]}]},{"action":"reach","subject":["dungeon"]}]}'
 
-qb=QuestBinder(EntitiesName(['monster','city','rareitem','tavern','dungeon','mage','hero','party','companion']));
+qb=QuestBinder(EntitiesName(['monster','city','rareitem','tavern','dungeon','mage','hero','party','companion','king','princess','medicine']));
 
 def narrate_quest(data):
     js = json.loads(data)
